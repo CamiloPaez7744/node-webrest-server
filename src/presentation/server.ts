@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 
 interface Options {
     port: number;
@@ -24,13 +25,18 @@ export class Server {
         this.app.use(express.static(this.publicPath));
 
         this.app.get('*', (req, res) => {
-            console.log(req.url);
-            res.sendFile('index.html', { root: this.publicPath });
+            const indexPath = path.join( __dirname + `../../../${ this.publicPath }/index.html` );
+            res.sendFile(indexPath);
         });
+
+        // this.app.get('*', (req, res) => {
+        //     console.log(req.url);
+        //     res.sendFile('index.html', { root: this.publicPath });
+        // });
 
 
         this.app.listen(this.port, () => {
-            console.log(`Server is running on http://localhost:${this.port}`);
+            console.log(`Server is running on port ${this.port}`);
         });
     }
 }
